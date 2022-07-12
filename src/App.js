@@ -61,7 +61,7 @@ function Home() {
           )
         })
       }
-      최재웅
+      
     </Home0>
   );
 }

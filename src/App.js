@@ -1,21 +1,33 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import Search from './pages/search.jsx';
-import {BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
 import Watch from './pages/watch.jsx';
 import Upload from './pages/upload.jsx';
+import Login from './pages/login.jsx';
+import UserTable from './pages/users.jsx';
+import Nav from './UI/nav.jsx';
+import Mboard from './pages/mboard.jsx';
 
-let Home0 = styled.div`
+const Home0 = styled.div`
   margin: auto;
   color: black;
   text-align: center;
   a {
+    color: green;
     text-decoration: none;
   }
   p {
     margin: 0;
   }
 `
+const StyledLink = styled(Link)`
+    text-decoration: none;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
 
 
 function Home() {
@@ -24,18 +36,21 @@ function Home() {
 
   return (
     <Home0>
-      <div>
-        <h2><Link to={"/"}>willywood</Link></h2>
-      </div>
-      
-      <Link to={"/watch"}>영상보기</Link>/
-      <Link to={"/search"}>검색</Link>/
-      <Link to={"/upload"}>업로드</Link>
+      <Nav/>
+      {/* <StyledLink to={"/watch"}>영상보기</StyledLink>/ */}
+      {/* <StyledLink to={"/search"}>검색</StyledLink>/ */}
+      {/* <StyledLink to={"/upload"}>업로드</StyledLink>/ */}
+      <StyledLink to={"/login"}>로그인</StyledLink>/
+      <StyledLink to={"/users"}>유저</StyledLink>/
+      <StyledLink to={"/mboard"}>게시판</StyledLink>/
       <Routes>
         {/* <Route path='/' element={<Basic/>}/> */}
         <Route path='/watch' element={<Watch/>}/>
         <Route path='/search' element={<Search/> }/>
         <Route path='/upload' element={<Upload/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/users' element={<UserTable/>}/>
+        <Route path='/mboard' element={<Mboard/>}/>
         {/* <Route path='/policy' element={<Policy/>}/> */}
       </Routes>
     </Home0>

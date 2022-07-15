@@ -8,6 +8,8 @@ import Login from './pages/login.jsx';
 import UserTable from './pages/users.jsx';
 import Nav from './UI/nav.jsx';
 import Mboard from './pages/mboard.jsx';
+import Register from './pages/register.jsx';
+import { useSelector } from 'react-redux';
 
 const Home0 = styled.div`
   margin: auto;
@@ -19,6 +21,7 @@ const Home0 = styled.div`
   }
   p {
     margin: 0;
+    color: black;
   }
 `
 const StyledLink = styled(Link)`
@@ -32,7 +35,9 @@ const StyledLink = styled(Link)`
 
 function Home() {
 
-  let [category, setcategory] = useState(['All', '액션', '로맨스', '판타지', '회사', '모험', '사회문제', '스릴러', '공포', '청춘', '코미디', '가족', '드라마', '다큐', '일상'])
+  let [category, setcategory] = useState(['All', '액션', '로맨스', '판타지', '회사', '모험', '사회문제',
+   '스릴러', '공포', '청춘', '코미디', '가족', '드라마', '다큐', '일상'])
+   let login = useSelector((state) => state.login)
 
   return (
     <Home0>
@@ -43,6 +48,7 @@ function Home() {
       <StyledLink to={"/login"}>로그인</StyledLink>/
       <StyledLink to={"/users"}>유저</StyledLink>/
       <StyledLink to={"/mboard"}>게시판</StyledLink>/
+      <StyledLink to={"/register"}>회원가입</StyledLink>/
       <Routes>
         {/* <Route path='/' element={<Basic/>}/> */}
         <Route path='/watch' element={<Watch/>}/>
@@ -51,6 +57,7 @@ function Home() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/users' element={<UserTable/>}/>
         <Route path='/mboard' element={<Mboard/>}/>
+        <Route path='/register' element={<Register/>}/>
         {/* <Route path='/policy' element={<Policy/>}/> */}
       </Routes>
     </Home0>
@@ -58,3 +65,6 @@ function Home() {
 }
 
 export default Home;
+
+
+//env 파일 이용하여 서버 주소 저장

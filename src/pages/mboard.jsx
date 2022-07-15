@@ -41,28 +41,8 @@ const Content_input = styled.input`
 
 function Mboard() {
 
-    let [board, setboard] = useState([
-        {   
-            id: 'chohi',
-            title: '오늘 저녁',
-            content: '오늘 저녁으로 햄버거 10,600원짜리 세트를 먹었다.',
-            like: false,
-            date:'2022.07.13/20:49:00'
-        },
-        {   
-            id: 'chohi',
-            title: '오늘 아침',
-            content: '출근하기 ㅈㄴ 싫다.',    
-            like: false,
-            date:'2022.07.13/20:49:05'
-        },
-        {
-            id: 'chohi',
-            title: '오늘 점심',
-            content: '비 ㅈㄴ 온다.', 
-            like: false,
-            date:'2022.07.13/20:49:07'
-        }
+    const [board, setboard] = useState([
+        
     ])
 
     const [input, setinput] = useState([
@@ -105,33 +85,34 @@ function Mboard() {
                     let copy = [...board];
                     copy.push(input);
                     setboard(copy)
+                    //console.log(...board)
                 }}>등록</button>
+                {/* {
+                    console.log(...board)
+                } */}
             </Board_input>
             {
                 board.map((a,i)=>{
                     return(
-                <Board>
-                    <Title><b>제목: </b>{a.title}</Title>
-                    <Writer><b>글쓴이: </b>{a.id}</Writer>
-                    <Content><b>내용: </b>{a.content}</Content>
-                    <Like onClick={()=>{setlike(!like)}}>
-                    {   
-                        like == false ? '🤍' : '❤️'
-                    }
-                    </Like>
-                    <button onClick={() => {
-                                    let copy3 = [...board]
-                                    copy3.splice(i, 1)
-                                    setboard(copy3)
-                                }}>삭제</button>
-                    <Blank/>
-                </Board>
+                        <Board key={i}>
+                            <Title><b>제목: </b>{a.title}</Title>
+                            <Writer><b>글쓴이: </b>{a.id}</Writer>
+                            <Content><b>내용: </b>{a.content}</Content>
+                            <Like onClick={()=>{setlike(!like)}}>
+                            {
+                                like == false ? '🤍' : '❤️'
+                            }
+                            </Like>
+                            <button onClick={() => {
+                                            let copy3 = [...board]
+                                            copy3.splice(i, 1)
+                                            setboard(copy3)
+                                        }}>삭제</button>
+                            <Blank/>
+                        </Board>
                     )
                 })
             }
-            
-            
-            
         </>
     );
 }

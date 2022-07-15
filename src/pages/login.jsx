@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
-import { Route, Routes, Link } from 'react-router-dom';
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {setlogin, setloginstate } from "../store";
 
 const Login_box = styled.div`
     display: block;
@@ -23,23 +24,20 @@ let Box = styled.div`
 
 function Login() {
 
-    const [user, setuser] = useState([
-        {
-            id: 'chohi',
-            pw: '12345',
-            em: '2@naver.com'
-        }
-    ]);
+    let p = '재웅'
+
+    let loginstate = useSelector((state) => state.loginstate)
+    let login = useSelector((state) => state.login)
+    let dispatch = useDispatch()
 
     const [input, setinput] = useState([
         {
-            id: '',
-            pw: '',
-            em: ''
+            ID: '',
+            PW: '',
         }
     ]);
 
-    const { id, pw, em } = user;
+    const { ID, PW } = input;
 
     const onChange = (e) => {
         const { value, name } = e.target;
@@ -49,87 +47,71 @@ function Login() {
         })
     }
 
-    let [login, setlogin] = useState(true)
+    const onReset = () => {
+        setinput({
+            ID: '',
+            PW: '',
+        })
+    };
 
     return (
         <>
-            <Login_box>
-                <div>
-                    <input name="id" placeholder="ID" onChange={onChange} value={id} />
-                </div>
-                <div>
-                    <input name="pw" placeholder="PW" onChange={onChange} value={pw} />
-                </div>
-                <div>
-                    <input name="em" placeholder="E-Mail" onChange={onChange} value={em} />
-                </div>
-                {
-                    login == false ?
-                        <button onClick={() => {
-                            let copy = [...user];
-                            copy.push(input);
-                            setuser(copy);
-                            console.log(user);
-                            //서버에서 데이터 가져오기
-                            // axios.get('url')
-                            // .then((result)=>{ 
-                            //     console.log(result.data) 
-                            // })
-                            // .catch(()=>{
-                            //     console.log('서버로부터 받기 실패함')
-                            // })
-                            //서버에 로그인 정보 보내기
-                            // axios.post('')
-                        }}>로그인</button>
-                        : null
-                }
-            </Login_box>
-            <Thead/>
             {
-                user.map((a, i) => {
-                    return (
+                loginstate.log == false ?
+                    <Login_box>
+                        {console.log(loginstate)}
+                        {console.log(login)}
                         <div>
-                            <Box>
-                                <h4 />
-                                <h4>{i + 1}</h4>
-                                <h4>{a.id}</h4>
-                                <h4>{a.pw}</h4>
-                                <h4>{a.em}</h4>
-                                <button onClick={() => {
-                                    let copy3 = [...user]
-                                    copy3.splice(i, 1)
-                                    setuser(copy3)
-                                    {
-                                        user == null ? setlogin(false) : setlogin(true)
-                                    }
-                                }}>로그아웃</button>
-                                <h4 />
-                            </Box>
+                            <input name="ID" placeholder="ID" onChange={onChange} value={ID} />
                         </div>
-                    );
-                })
+                        <div>
+                            <input name="PW" placeholder="PW" onChange={onChange} value={PW} />
+                        </div>
+                        <button onClick={() => {
+                            axios.post('http://192.168.0.111:8000/login', { userdata: input, state: 'login' })
+                                .then((res) => {
+                                    console.log(res.data)
+                                    dispatch(setlogin(res.data))
+                                    {
+                                        
+                                    }
+                                })
+                                .catch((e) => {
+                                    console.log(e)
+                                })
+                            dispatch(setlogin({p}))
+                            dispatch(setloginstate(true));
+                        }}>로그인</button>
+                    </Login_box>
+                    :
+                    <>
+                        <h3>로그인된 유저</h3>
+                        {console.log(loginstate)}
+                        {console.log(login)}
+                        <Box>
+                            <h4 />
+                            <h4 />
+                            <h4>{p}</h4>
+                            <button onClick={() => {
+                                onReset();
+                                // axios.post('http://192.168.0.111:8000/login', { userdata: input, state: 'logout' })
+                                //     .then((res) => {
+                                //         console.log(res.data)
+                                //     })
+                                //     .catch(() => {
+                                //         console.log('실패함')
+                                //     })
+                                dispatch(setlogin(null))
+                                dispatch(setloginstate(false));
+                            }}>로그아웃</button>
+                            <h4 />
+                        </Box>
+                    </>
             }
-
-
         </>
     );
 }
 
-function Thead() {
-    return (
-        <div>
-
-            <Box>
-                <h4 />
-                <h4>#</h4>
-                <h4>ID</h4>
-                <h4>PW</h4>
-                <h4>E-mail</h4>
-                <h4 />
-                <h4 />
-            </Box>
-        </div>
-    )
-}
-
 export default Login;
+
+// headers: { "Content-Type": `application/json`}

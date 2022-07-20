@@ -22,7 +22,7 @@ let Result = styled.div`
 `
 
 function Search() {
-    let [movie, setmovie] = useState(['이름을 태워야 할때', '도혁', '밥때', '넌', '헬로하와유', '용의자', '개꿈', '졸업', '관계의 초상', '잠기다', '불꽃놀이',
+    let [movie] = useState(['이름을 태워야 할때', '도혁', '밥때', '넌', '헬로하와유', '용의자', '개꿈', '졸업', '관계의 초상', '잠기다', '불꽃놀이',
         'Ego identity', '통제불능', '드림러브', '찐(따)히어로의 탄생', '음악은 국가가 허락한 유일한 마약이다', '기프트']);
     let [search, setsearch] = useState('')
 
@@ -34,7 +34,7 @@ function Search() {
             <Result>
                 {
                     movie.filter((finale) => {
-                        if (search == '') { return finale }
+                        if (search === '') { return finale }
                         else if (finale.toLowerCase().includes(search.toLowerCase())) { return finale }
                     }).map((a) => {
                         return (

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {setlogin, setloginstate } from "../store";
+import { setlogin, setloginstate } from "../store";
 
 const Login_box = styled.div`
     display: block;
@@ -24,7 +24,7 @@ let Box = styled.div`
 
 function Login() {
 
-    let p = '재웅'
+    let p = {id: 2, name: "재웅"}
 
     let loginstate = useSelector((state) => state.loginstate)
     let login = useSelector((state) => state.login)
@@ -57,50 +57,52 @@ function Login() {
     return (
         <>
             {
-                loginstate.log == false ?
+                loginstate.log === false ?
                     <Login_box>
-                        {console.log(loginstate)}
-                        {console.log(login)}
                         <div>
-                            <input name="ID" placeholder="ID" onChange={onChange} value={ID} />
+                            <input name="ID" placeholder="ID" onChange={onChange} value={ID || ''} />
                         </div>
                         <div>
-                            <input name="PW" placeholder="PW" onChange={onChange} value={PW} />
+                            <input name="PW" placeholder="PW" onChange={onChange} value={PW || ''} />
                         </div>
                         <button onClick={() => {
-                            axios.post('http://192.168.0.111:8000/login', { userdata: input, state: 'login' })
+                            axios.post('http://192.168.0.111:8000/login', { userdata: input })
                                 .then((res) => {
-                                    console.log(res.data)
+                                    // console.log(res.data)
                                     dispatch(setlogin(res.data))
-                                    {
-                                        
-                                    }
                                 })
                                 .catch((e) => {
                                     console.log(e)
                                 })
-                            dispatch(setlogin({p}))
+                            // dispatch(setlogin(p))
                             dispatch(setloginstate(true));
                         }}>로그인</button>
                     </Login_box>
                     :
                     <>
                         <h3>로그인된 유저</h3>
-                        {console.log(loginstate)}
-                        {console.log(login)}
+                        {/* {console.log(loginstate)}
+                        {console.log(login)} */}
                         <Box>
                             <h4 />
                             <h4 />
-                            <h4>{p}</h4>
+                            {
+                                login.user === null ?
+                                    <div></div>
+                                    : <>
+                                        <h4>{login.user.id}</h4>
+                                        <h4>{login.user.name}</h4>
+                                    </>
+                            }
                             <button onClick={() => {
                                 onReset();
-                                // axios.post('http://192.168.0.111:8000/login', { userdata: input, state: 'logout' })
-                                //     .then((res) => {
-                                //         console.log(res.data)
-                                //     })
-                                //     .catch(() => {
-                                //         console.log('실패함')
-                                //     })
+                                axios.post('http://192.168.0.111:8000/login', { userdata: input, state: 'logout' })
+                                    .then((res) => {
+                                        console.log(res.data)
+                                    })
+                                    .catch(() => {
+                                        console.log('로그아웃')
+                                    })
                                 dispatch(setlogin(null))
                                 dispatch(setloginstate(false));
                             }}>로그아웃</button>

@@ -9,7 +9,6 @@ import Nav from './UI/nav.jsx';
 import Mboard from './pages/mboard.jsx';
 import Register from './pages/register.jsx';
 import { useSelector } from "react-redux";
-import Test from './pages/test';
 
 const Home0 = styled.div`
   margin: auto;
@@ -47,7 +46,6 @@ function Home() {
       <StyledLink to={"/login"}>로그인</StyledLink>/
       <StyledLink to={"/mboard"}>게시판</StyledLink>/
       <StyledLink to={"/register"}>회원가입</StyledLink>/
-      <StyledLink to={"/test"}>테스트</StyledLink>/
       <Routes>
         {/* <Route path='/' element={<Basic/>}/> */}
         <Route path='/watch' element={<Watch/>}/>
@@ -56,7 +54,6 @@ function Home() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/mboard' element={<Mboard/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/test' element={<Test/>}/>
         {/* <Route path='/policy' element={<Policy/>}/> */}
       </Routes>
     </Home0>

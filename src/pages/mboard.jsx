@@ -78,26 +78,31 @@ function Mboard() {
 
     let [like, setlike] = useState([{}]);
 
-    useEffect(() => {
-
+    const eventHandler1 = () => {
         axios.get('http://192.168.0.111:8000/boardList')
-            .then((res) => {
-                setboard(res.data)
-                console.log(res.data)
-            })
+            .then((res) => {setboard(res.data)})
             .catch((e) => { console.log(e) })
-
+        console.log('aa')
+    }
+    
+    const eventHandler2 = () => {
         axios.post('http://192.168.0.111:8000/userLike', { user_id: login.user.id })
-            .then((res) => {
-                setlike(res.data)
-                console.log(res.data)
-            })
+            .then((res) => {setlike(res.data)})
             .catch((e) => { console.log(e) })
-    }, [])
+        console.log('bb')
+    }
 
     useEffect(() => {
+        axios.get('http://192.168.0.111:8000/boardList')
+            .then((res) => {setboard(res.data)})
+            .catch((e) => { console.log(e) })
+        axios.post('http://192.168.0.111:8000/userLike', { user_id: login.user.id })
+            .then((res) => {setlike(res.data)})
+            .catch((e) => { console.log(e) })
+        console.log('a')
+    },[])
 
-    }, [])
+    useEffect(()=>{console.log('b')},[board,like])
 
     return (
         <>  {
@@ -120,6 +125,7 @@ function Mboard() {
                                 { postdata: input, writer: login.user.id, })
                                 .then((res) => { console.log(res.data) })
                                 .catch((e) => { console.log(e) })
+                            eventHandler1()
                             onReset()
                         }}>등록</button>
                         {/* {console.log(board)} */}
@@ -131,8 +137,12 @@ function Mboard() {
                                 return (
                                     <Board key={a.id}>
                                         <Title><b>제목: </b>{a.title}</Title>
-                                        {/* <Writer><b>글쓴이: </b>{a.writer}</Writer> */}
-                                        <Writer><b>글쓴이: </b>{a.writer_user.name}</Writer>
+                                        <Writer><b>글쓴이: </b>{a.writer}</Writer>
+                                        {/* {
+                                            a.writer_user.name === null ? <div></div>:
+                                            <Writer><b>글쓴이: </b>{a.writer_user.name}</Writer>
+                                        } */}
+                                        
                                         <Content><b>내용: </b>{a.content}</Content>
                                         <p><b>좋아요수:</b>{a.like_count}</p>
                                         <Time date={a.createdAt} />
@@ -156,6 +166,7 @@ function Mboard() {
                                                         { user_id: login.user.id, post_id: a.id, like_state: false })
                                                         .then((res) => { console.log(res.data) })
                                                         .catch((e) => { console.log(e) })
+                                                    eventHandler2()
                                                 }}>
                                                     ❤️
                                                 </Like0>
@@ -166,6 +177,7 @@ function Mboard() {
                                                         { user_id: login.user.id, post_id: a.id, like_state: true })
                                                         .then((res) => { console.log(res.data) })
                                                         .catch((e) => { console.log(e) })
+                                                    eventHandler2()
                                                 }}>
                                                     🤍
                                                 </Like0>
